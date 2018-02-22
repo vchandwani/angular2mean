@@ -1,8 +1,8 @@
-import {Component } from "@angular/core";
+import { Component } from "@angular/core";
 
 @Component({
-    selector : 'app-messages',
-    templateUrl : `
+    selector: 'app-messages',
+    template: `
         <div class="row">
             <app-message-input></app-message-input>
         </div>
@@ -12,6 +12,6 @@ import {Component } from "@angular/core";
         </div>
     `
 })
-export class MessagesComponent{
-    
+export class MessagesComponent {
+
 }

@@ -36,7 +36,7 @@ import { AuthService } from "./auth/auth.service";
         ReactiveFormsModule,
         HttpModule
     ],
-    providers : [AuthService],
+    providers: [AuthService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

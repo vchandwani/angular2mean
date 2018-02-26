@@ -40,6 +40,7 @@ module.exports = webpackMerge.smart(commonConfig, {
       entryModule: './assets/app/app.module#AppModule'
     }),
         new webpack.optimize.UglifyJsPlugin({
+            mangle: false,
             sourceMap: false
         })
     ]

@@ -20,8 +20,9 @@ router.post('/', function (req, res, next) {
             });
         }
         res.status(201).json({
-            message: 'User created',
-            obj: result
+            title: 'User created',
+            obj: result,
+            success : true
         });
     });
 });

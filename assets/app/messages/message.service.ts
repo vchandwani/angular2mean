@@ -29,9 +29,10 @@ export class MessageService {
                     result.obj._id,
                     result.obj.user._id);
                 this.messages.push(message);
-                if(message){
+                if(message){                    
+                    this.errorService.handleSuccess(response.json());
                     return message; 
-                }                               
+                }                
             })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

@@ -4,9 +4,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Close" (click)="onErrorHandled()"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{ error?.title }}</h4>
+                <h4 class="modal-title">
+                    <i class="material-icons green" [ngStyle]="{'display': displaySuccess}">add_alert</i>
+                    <i class="material-icons red" [ngStyle]="{'display': displayError}">warning</i>
+                    {{ error?.title }}
+                </h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" *ngIf="error?.message">
                 <p>{{ error?.message }}</p>
             </div>
             <div class="modal-footer">

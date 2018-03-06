@@ -55,12 +55,28 @@ router.post('/', function (req, res, next) {
                     error: err
                 });
             }
-            user.messages.push(result);
-            user.save();
-            res.json({                
-                message: 'Saved message',
-                obj: result              
-            });
+            if (result) {
+                var push = user.messages.push(result);
+                setTimeout(()=>{
+                    if (push) {
+                        user.save(function (err, resUser) {
+                            if (err) {
+                                return res.status(500).json({
+                                    title: 'An error occurred',
+                                    error: err
+                                });
+                            }
+                            if (resUser) {
+                                res.status(201).json({
+                                    title: 'Message added successfully',
+                                    obj: result,
+                                    success: true
+                                });
+                            }
+                        });
+                    }
+               },500);
+            }
         });
     });
 });
@@ -77,13 +93,13 @@ router.patch('/:id', function (req, res, next) {
         if (!message) {
             return res.status(500).json({
                 title: 'No Message Found!',
-                error: {message: 'Message not found'}
+                error: { message: 'Message not found' }
             });
         }
         if (message.user != decoded.user._id) {
             return res.status(401).json({
                 title: 'Not Authenticated',
-                error: {message: 'Users do not match'}
+                error: { message: 'Users do not match' }
             });
         }
         message.content = req.body.content;
@@ -114,13 +130,13 @@ router.delete('/:id', function (req, res, next) {
         if (!message) {
             return res.status(500).json({
                 title: 'No Message Found!',
-                error: {message: 'Message not found'}
+                error: { message: 'Message not found' }
             });
         }
         if (message.user != decoded.user._id) {
             return res.status(401).json({
                 title: 'Not Authenticated',
-                error: {message: 'Users do not match'}
+                error: { message: 'Users do not match' }
             });
         }
         message.remove(function (err, result) {

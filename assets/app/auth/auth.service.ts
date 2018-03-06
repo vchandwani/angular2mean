@@ -14,7 +14,11 @@ export class AuthService {
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post('http://localhost:3000/user', body, {headers: headers})
-            .map((response: Response) => response.json())
+            .map((response: Response) => {
+                response.json()
+                this.errorService.handleSuccess(response.json());
+                return Observable.throw(response.json());
+            })
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
                 return Observable.throw(error.json());
@@ -34,6 +38,8 @@ export class AuthService {
 
     logout() {
         localStorage.clear();
+        this.errorService.handleSuccess({'title':'Logged Out','message':'','successs':true});
+        return Observable.throw({'title':'Logged Out','message':'','successs':true});
     }
 
     isLoggedIn() {

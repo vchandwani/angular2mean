@@ -5,21 +5,13 @@ import { ErrorService } from "./error.service";
 
 @Component({
     selector: 'app-error',
-    templateUrl: './error.component.html',
-    styles: [`
-        .backdrop {
-            background-color: rgba(0,0,0,0.6);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-        }
-    `]
+    templateUrl: './error.component.html'
 })
 export class ErrorComponent implements OnInit {
     error: Error;
     display = 'none';
+    displaySuccess = 'none';
+    displayError = 'none';
 
     constructor(private errorService: ErrorService) {}
 
@@ -31,6 +23,13 @@ export class ErrorComponent implements OnInit {
         this.errorService.errorOccurred
             .subscribe(
                 (error: Error) => {
+                    if(error.success){
+                        this.displaySuccess = '';
+                        this.displayError = 'none';
+                    } else {
+                        this.displayError = '';
+                        this.displaySuccess = 'none';
+                    }
                     this.error = error;
                     this.display = 'block';
                 }

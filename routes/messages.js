@@ -111,8 +111,9 @@ router.patch('/:id', function (req, res, next) {
                 });
             }
             res.status(200).json({
-                message: 'Updated message',
-                obj: result
+                title: 'Updated message',
+                obj: result,
+                success: true
             });
         });
     });
@@ -147,8 +148,9 @@ router.delete('/:id', function (req, res, next) {
                 });
             }
             res.status(200).json({
-                message: 'Deleted message',
-                obj: result
+                title: 'Deleted message',
+                obj: result,
+                success: true
             });
         });
     });

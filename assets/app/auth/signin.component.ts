@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 
 import { User } from "./user.model";
 import { AuthService } from "./auth.service";
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'app-signin',
@@ -12,9 +13,10 @@ import { AuthService } from "./auth.service";
 export class SigninComponent {
     myForm: FormGroup;
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private spinnerService: Ng4LoadingSpinnerService,private authService: AuthService, private router: Router) {}
 
     onSubmit() {
+        this.spinnerService.show();
         const user = new User(this.myForm.value.email, this.myForm.value.password);
         this.authService.signin(user)
             .subscribe(
@@ -22,8 +24,12 @@ export class SigninComponent {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('userId', data.userId);
                     this.router.navigateByUrl('/');
+                    this.spinnerService.hide();
                 },
-                error => console.error(error)
+                error => {
+                    this.spinnerService.hide();
+                    //console.error(error)
+                }
             );
         this.myForm.reset();
     }

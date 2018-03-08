@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { Message } from "./message.model";
 import { MessageService } from "./message.service";
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'app-message-list',
@@ -16,13 +17,15 @@ import { MessageService } from "./message.service";
 export class MessageListComponent implements OnInit {
     messages: Message[];
 
-    constructor(private messageService: MessageService) {}
+    constructor(private spinnerService: Ng4LoadingSpinnerService,private messageService: MessageService) {}
 
     ngOnInit() {
+        this.spinnerService.show();
         this.messageService.getMessages()
             .subscribe(
                 (messages: Message[]) => {
                     this.messages = messages;
+                    this.spinnerService.hide();
                 }
             );
     }

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { AuthService } from "./auth.service";
 import { User } from "./user.model";
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'app-signup',
@@ -11,9 +12,10 @@ import { User } from "./user.model";
 export class SignupComponent implements OnInit {
     myForm: FormGroup;
 
-    constructor(private authService: AuthService) {}
+    constructor(private spinnerService: Ng4LoadingSpinnerService,private authService: AuthService) {}
 
     onSubmit() {
+        this.spinnerService.show();
         const user = new User(
             this.myForm.value.email,
             this.myForm.value.password,
@@ -22,13 +24,14 @@ export class SignupComponent implements OnInit {
         );
         this.authService.signup(user)
             .subscribe(
-                data => console.log(data),
-                error => console.error(error)
+                data => {console.log(data),this.spinnerService.hide();},
+                error => {console.error(error),this.spinnerService.hide();}
             );
         this.myForm.reset();
     }
 
     ngOnInit() {
+        this.spinnerService.show();
         this.myForm = new FormGroup({
             firstName: new FormControl(null, Validators.required),
             lastName: new FormControl(null, Validators.required),
@@ -38,5 +41,6 @@ export class SignupComponent implements OnInit {
             ]),
             password: new FormControl(null, Validators.required)
         });
+        this.spinnerService.hide();
     }
 }

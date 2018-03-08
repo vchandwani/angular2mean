@@ -1,6 +1,7 @@
 $red :red;
-$green : #1f872b;
+$green: #1f872b;
 $a_color: #00B7FF;
+$loaderColor: #428bca;
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -55,10 +56,12 @@ input.ng-invalid.ng-touched {
 .red {
     color: $red;
 }
+
 .green {
     color: $green;
 }
+
 .material-icons {
-  height: inherit;
-  vertical-align: middle;
+    height: inherit;
+    vertical-align: middle;
 }

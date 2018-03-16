@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var appRoutes = require('./routes/app');
 var messageRoutes = require('./routes/messages');
 var userRoutes = require('./routes/user');
+var portfolioRoutes = require('./routes/portfolio');
 
 var app = express();
 mongoose.connect('mongodb://varunchandwani:Varun#123@mean-shard-00-00-gznja.mongodb.net:27017,mean-shard-00-01-gznja.mongodb.net:27017,mean-shard-00-02-gznja.mongodb.net:27017/node-angular?ssl=true&replicaSet=Mean-shard-0&authSource=admin');
@@ -33,6 +34,7 @@ app.use(function (req, res, next) {
 
 app.use('/message', messageRoutes);
 app.use('/user', userRoutes);
+app.use('/portfolio', portfolioRoutes);
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler

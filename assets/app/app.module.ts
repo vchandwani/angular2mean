@@ -1,3 +1,4 @@
+import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from "@angular/http";
@@ -10,7 +11,9 @@ import { AuthService } from "./auth/auth.service";
 import { ErrorComponent } from "./errors/error.component";
 import { ErrorService } from "./errors/error.service";
 import { MessageModule } from "./messages/message.module";
+import { PortfolioModule } from "./portfolio/portfolio.module";
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { ChartModule } from 'angular2-highcharts';
 
 @NgModule({
     declarations: [
@@ -24,7 +27,9 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
         routing,
         HttpModule,
         MessageModule,
-        Ng4LoadingSpinnerModule.forRoot()
+        PortfolioModule,
+        Ng4LoadingSpinnerModule.forRoot(),
+        ChartModule.forRoot(require('highcharts'))
     ],
     providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]
@@ -34,3 +39,4 @@ export class AppModule {
     }
 
 }
+platformBrowserDynamic().bootstrapModule(AppModule);

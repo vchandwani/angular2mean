@@ -29,7 +29,7 @@ import { ChartModule } from 'angular2-highcharts';
         MessageModule,
         PortfolioModule,
         Ng4LoadingSpinnerModule.forRoot(),
-        ChartModule.forRoot(require('highcharts'))
+        ChartModule.forRoot(require('highcharts/highstock'))
     ],
     providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]

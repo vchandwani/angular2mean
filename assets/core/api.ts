@@ -3,5 +3,15 @@ export default {
     user:'user',
     userSignIn:'user/signin',
     portfolio : 'portfolio',
-    portfolioNames : 'portfolio/names'
+    portfolioNames : 'portfolio/names',
+    hdfctop200 : 'https://www.quandl.com/api/v3/datasets/AMFI/119018?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    absldirect : 'https://www.quandl.com/api/v3/datasets/AMFI/119528?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    absl : 'https://www.quandl.com/api/v3/datasets/AMFI/103174?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    icici : 'https://www.quandl.com/api/v3/datasets/AMFI/102594?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    kotakdirect : 'https://www.quandl.com/api/v3/datasets/AMFI/120166?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    kotak : 'https://www.quandl.com/api/v3/datasets/AMFI/112090?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    miraedirect : 'https://www.quandl.com/api/v3/datasets/AMFI/118834?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    principaldirect : 'https://www.quandl.com/api/v3/datasets/AMFI/119441?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    sbidirect : 'https://www.quandl.com/api/v3/datasets/AMFI/119598?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
+    sbi : 'https://www.quandl.com/api/v3/datasets/AMFI/103504?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
 }

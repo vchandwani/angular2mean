@@ -7,6 +7,7 @@ var Portfolio = require('../models/portfolio');
 
 router.get('/', function (req, res, next) {
     Portfolio.find()
+        .sort('Date')
         .exec(function (err, portfolio) {
             if (err) {
                 return res.status(500).json({

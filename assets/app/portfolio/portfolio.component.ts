@@ -13,7 +13,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
     `],
     template: `
     <div *ngFor="let optionsVal of options">
-        <chart [options]="optionsVal"></chart>
+        <chart type="StockChart" [options]="optionsVal"></chart>
     </div>
     <div class="col-md-8 col-md-offset-2">
         <div *ngFor="let portfolioInv of portfolio">
@@ -46,13 +46,14 @@ export class PortfolioComponent implements OnInit {
         this.portfolioService.getNames()
             .subscribe(
                 data => {
+                    let mainArray = Array();
                     this.portfolioNames = data;
                     this.portfolioService.getPortfolioDetails()
                         .subscribe(
                             (portfolio: Portfolio[]) => {
                                 this.portfolio = portfolio;
 
-                                let nameItems =  [];
+                                let nameItems = [];
                                 let i = 0;
                                 for (let nameWise of portfolio) {
                                     i++;
@@ -61,32 +62,32 @@ export class PortfolioComponent implements OnInit {
                                     } else {
                                         nameItems[nameWise.Name] = [];
                                     }
-                                    let time:number = new Date(nameWise.Date);
-                                    let amount:number = nameWise.Price * nameWise.Unit;
-                                    if (amount > 0) {
+                                    let amount: number = nameWise.Price * nameWise.Unit;
+                                    if (amount) {
+                                        let dateString = nameWise.Date;
+                                        let res = dateString.split("-");
+                                        let time: number = new Date(res[0] + '-' + res[1] + '-' + res[2]).getTime();
                                         let tempArray = Array();
-                                        tempArray.push(time.getTime());
+                                        tempArray.push(time);
                                         tempArray.push(amount);
                                         nameItems[nameWise.Name].push(tempArray);
                                     }
                                 }
-                                setTimeout(() => {
-                                    this.options = [];
-                                    for (let name of this.portfolioNames) {
-                                        this.options.push({
-                                            name : {
-                                                title: { text: name },
-                                                series: [{
-                                                    name: name,
-                                                    data: nameItems[name],
-                                                    tooltip: {
-                                                        valueDecimals: 2
-                                                    }
-                                                }]
+
+                                this.options = [];
+                                for (let name of this.portfolioNames) {
+                                    this.options.push({
+                                        title: { text: name },
+                                        series: [{
+                                            name: name,
+                                            data: nameItems[name],
+                                            tooltip: {
+                                                valueDecimals: 2
                                             }
-                                        });
-                                    };
-                                }, 3000);
+                                        }]
+                                    });
+                                };
+
                                 this.spinnerService.hide();
                             }
                         );

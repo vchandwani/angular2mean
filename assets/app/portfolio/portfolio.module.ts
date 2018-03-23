@@ -14,7 +14,7 @@ import { ChartModule } from 'angular2-highcharts';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        ChartModule.forRoot(require('highcharts'))
+        ChartModule.forRoot(require('highcharts/highstock'))
     ],
     providers: [PortfolioService]
 })

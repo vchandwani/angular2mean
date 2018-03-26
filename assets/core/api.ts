@@ -4,6 +4,7 @@ export default {
     userSignIn:'user/signin',
     portfolio : 'portfolio',
     portfolioNames : 'portfolio/names',
+    portfolioMonthly : 'portfolio/monthly',
     hdfctop200 : 'https://www.quandl.com/api/v3/datasets/AMFI/119018?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
     absldirect : 'https://www.quandl.com/api/v3/datasets/AMFI/119528?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
     absl : 'https://www.quandl.com/api/v3/datasets/AMFI/103174?column_index=1&api_key=QAcRRkev76MWjxja2kYd',

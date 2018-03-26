@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-
+import { Http, Headers, Response } from "@angular/http";
 import { Portfolio } from "./portfolio.model";
 import { PortfolioService } from "./portfolio.service";
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
@@ -17,7 +17,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
     </div>
     <div class="col-md-8 col-md-offset-2">
         <div *ngFor="let portfolioInv of portfolio">
-            <article class="panel panel-default">
+            <!-- <article class="panel panel-default">
                 <div class="panel-body">
                     {{ portfolioInv.Name }}
                 </div>
@@ -26,7 +26,7 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
                         {{ portfolioInv.Date }}
                     </div>                    
                 </footer>
-            </article>
+            </article> -->
         </div>
     </div>
 `
@@ -87,6 +87,32 @@ export class PortfolioComponent implements OnInit {
                                         }]
                                     });
                                 };
+                                this.portfolioService.getAllMonthlyData()
+                                    .subscribe(
+                                        (portfolio) => {
+                                            let mainItem = [];
+                                            mainItem['main'] = [];
+                                            for (let mainWise of portfolio) {
+                                                let amount: number = mainWise[0];
+                                                if (amount) {
+                                                    let time: number = new Date(mainWise[2] + '-' +  mainWise[1] + '-' +'28').getTime();
+                                                    let tempArray = Array();
+                                                    tempArray.push(time);
+                                                    tempArray.push(amount);
+                                                    mainItem['main'].push(tempArray);
+                                                }
+                                            }
+                                            this.options.push({
+                                                title: { text: 'Portfolio Total' },
+                                                series: [{
+                                                    name: 'Portfolio Total',
+                                                    data: mainItem['main'],
+                                                    tooltip: {
+                                                        valueDecimals: 2
+                                                    }
+                                                }]
+                                            });
+                                        });
 
                                 this.spinnerService.hide();
                             }

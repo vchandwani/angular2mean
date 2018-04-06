@@ -11,6 +11,7 @@ import { AuthService } from "./auth/auth.service";
                     <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['/auth/signup']">Authentication</a></li>
                     <li routerLinkActive="active" *ngIf="isLoggedIn()"><a [routerLink]="['/auth']">Authentication</a></li>
                     <li routerLinkActive="active" *ngIf="isLoggedIn()"><a [routerLink]="['/portfolio']">Portfolio</a></li>
+                    <li routerLinkActive="active" *ngIf="isLoggedIn()"><a [routerLink]="['/portfolio-detail']">Portfolio Details</a></li>
                 </ul>
             </nav>
         </header>

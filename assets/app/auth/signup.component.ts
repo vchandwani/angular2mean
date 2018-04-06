@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
             );
         this.myForm.reset();
     }
-
+    
     ngOnInit() {
         this.spinnerService.show();
         this.myForm = new FormGroup({

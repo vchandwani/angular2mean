@@ -1,123 +1,61 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import { Portfolio } from "./portfolio.model";
+import { Component, OnInit } from "@angular/core";
 import { PortfolioService } from "./portfolio.service";
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
     selector: 'app-portfolio',
     styles: [`
-      chart {
-        display: block; 
-      }
+        .chart {display: block; width: 100%;}
     `],
     template: `
-    <div *ngFor="let optionsVal of options">
-        <chart type="StockChart" [options]="optionsVal"></chart>
+    <div style="display: block">
+        <canvas baseChart *ngIf="chartDisplay" [data]="chartDataMain" [labels]="chartLabelsMain" [chartType]="doughnutChartType"></canvas>
     </div>
-    <div class="col-md-8 col-md-offset-2">
-        <div *ngFor="let portfolioInv of portfolio">
-            <!-- <article class="panel panel-default">
-                <div class="panel-body">
-                    {{ portfolioInv.Name }}
-                </div>
-                <footer class="panel-footer">
-                    <div class="author">
-                        {{ portfolioInv.Date }}
-                    </div>                    
-                </footer>
-            </article> -->
-        </div>
+    <div style="display: block">
+        <canvas baseChart *ngIf="chartDisplay"
+                [data]="chartDataMain"
+                [labels]="chartLabelsMain"
+                [chartType]="pieChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
     </div>
-`
+    `
 })
 export class PortfolioComponent implements OnInit {
-    portfolio: Portfolio[];
-    portfolioNames: any;
-
-    constructor(
-        private spinnerService: Ng4LoadingSpinnerService,
-        private portfolioService: PortfolioService
-    ) { }
-    options: any;
+    constructor(private spinnerService: Ng4LoadingSpinnerService, private portfolioService: PortfolioService) { }
+    rows = [];
+    // Doughnut
+    public chartLabelsMain: string[] = [];
+    public chartDataMain: number[] = [];
+    public doughnutChartType: string = 'doughnut';
+    public pieChartType: string = 'pie';
+    public chartDisplay = false;
 
     ngOnInit() {
         this.spinnerService.show();
-        this.portfolioService.getNames()
+        this.portfolioService.getActiveFunds()
             .subscribe(
                 data => {
-                    let mainArray = Array();
-                    this.portfolioNames = data;
-                    this.portfolioService.getPortfolioDetails()
-                        .subscribe(
-                            (portfolio: Portfolio[]) => {
-                                this.portfolio = portfolio;
-
-                                let nameItems = [];
-                                let i = 0;
-                                for (let nameWise of portfolio) {
+                    this.rows = data;
+                    let i = 0;
+                    this.rows.forEach((item) => {
+                        this.portfolioService.getFundLastEntry(item.name)
+                            .subscribe(
+                                data => {
                                     i++;
-                                    if (nameItems[nameWise.Name]) {
-
-                                    } else {
-                                        nameItems[nameWise.Name] = [];
+                                    this.chartLabelsMain.push(data[0].Name);
+                                    this.chartDataMain.push(data[0].Price * data[0].Unit);
+                                    if (this.rows.length == i) {
+                                        this.spinnerService.hide();
+                                        this.chartDisplay = true;
                                     }
-                                    let amount: number = nameWise.Price * nameWise.Unit;
-                                    if (amount) {
-                                        let dateString = nameWise.Date;
-                                        let res = dateString.split("-");
-                                        let time: number = new Date(res[0] + '-' + res[1] + '-' + res[2]).getTime();
-                                        let tempArray = Array();
-                                        tempArray.push(time);
-                                        tempArray.push(amount);
-                                        nameItems[nameWise.Name].push(tempArray);
-                                    }
+                                },
+                                error => {
+                                    this.spinnerService.hide();
+                                    //console.error(error)
                                 }
-
-                                this.options = [];
-                                for (let name of this.portfolioNames) {
-                                    this.options.push({
-                                        title: { text: name },
-                                        series: [{
-                                            name: name,
-                                            data: nameItems[name],
-                                            tooltip: {
-                                                valueDecimals: 2
-                                            }
-                                        }]
-                                    });
-                                };
-                                this.portfolioService.getAllMonthlyData()
-                                    .subscribe(
-                                        (portfolio) => {
-                                            let mainItem = [];
-                                            mainItem['main'] = [];
-                                            for (let mainWise of portfolio) {
-                                                let amount: number = mainWise[0];
-                                                if (amount) {
-                                                    let time: number = new Date(mainWise[2] + '-' +  mainWise[1] + '-' +'28').getTime();
-                                                    let tempArray = Array();
-                                                    tempArray.push(time);
-                                                    tempArray.push(amount);
-                                                    mainItem['main'].push(tempArray);
-                                                }
-                                            }
-                                            this.options.push({
-                                                title: { text: 'Portfolio Total' },
-                                                series: [{
-                                                    name: 'Portfolio Total',
-                                                    data: mainItem['main'],
-                                                    tooltip: {
-                                                        valueDecimals: 2
-                                                    }
-                                                }]
-                                            });
-                                        });
-
-                                this.spinnerService.hide();
-                            }
-                        );
-                    this.spinnerService.hide();
+                            );
+                    });
                 },
                 error => {
                     this.spinnerService.hide();

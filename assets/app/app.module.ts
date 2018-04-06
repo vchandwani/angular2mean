@@ -1,6 +1,7 @@
 import { platformBrowserDynamic }  from '@angular/platform-browser-dynamic';
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpModule } from "@angular/http";
 
 import { AppComponent } from "./app.component";
@@ -10,28 +11,42 @@ import { routing } from "./app.routing";
 import { AuthService } from "./auth/auth.service";
 import { ErrorComponent } from "./errors/error.component";
 import { ErrorService } from "./errors/error.service";
+import { DataTableModule, SharedModule, DialogModule,DataGridModule ,InputTextModule,ButtonModule} from 'primeng/primeng';
 import { MessageModule } from "./messages/message.module";
-import { PortfolioModule } from "./portfolio/portfolio.module";
+import { PortfolioDetailModule } from "./portfolio-detail/portfolio-detail.module";
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
-import { ChartModule } from 'angular2-highcharts';
+import { ChartsModule } from 'ng2-charts';
+import { PortfolioService } from "./portfolio/portfolio.service";
+import { PortfolioComponent } from "./portfolio/portfolio.component";
+import { PortfolioInputComponent } from "./portfolio/portfolio-input.component";
 
-@NgModule({
+@NgModule({    
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        routing,
+        HttpModule,
+        MessageModule,
+        PortfolioDetailModule,
+        Ng4LoadingSpinnerModule.forRoot(),
+        ChartsModule,
+        DataTableModule,
+        DataGridModule,
+        ButtonModule,
+        InputTextModule,
+        SharedModule,
+        DialogModule
+    ],
     declarations: [
         AppComponent,
         AuthenticationComponent,
         HeaderComponent,
-        ErrorComponent
+        ErrorComponent,
+        PortfolioComponent,
+        PortfolioInputComponent
     ],
-    imports: [
-        BrowserModule,
-        routing,
-        HttpModule,
-        MessageModule,
-        PortfolioModule,
-        Ng4LoadingSpinnerModule.forRoot(),
-        ChartModule.forRoot(require('highcharts/highstock'))
+    providers: [AuthService, ErrorService,PortfolioService
     ],
-    providers: [AuthService, ErrorService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

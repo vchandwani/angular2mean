@@ -69,4 +69,38 @@ export class PortfolioService {
                 return Observable.throw(error.json());
             });
     }
+    getActiveFunds() {
+        return this.http.get(API.fundWise)
+            .map((response: Response) => {
+                const activeFundsDetails = response.json().obj;
+                let activeFundName = [];
+                activeFundsDetails.forEach((item, index) => {
+                    activeFundName.push(item);
+                });
+                return activeFundName;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+    getFundLastEntry(name) {
+        return this.http.get(API.fundLastEntry, {
+            params: {
+                name: name
+            }
+        })
+            .map((response: Response) => {
+                const activeFundLastDetail = response.json().obj;
+                let fundLast = [];
+                activeFundLastDetail.forEach((item, index) => {
+                    fundLast.push(item);
+                });
+                return fundLast;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
 }

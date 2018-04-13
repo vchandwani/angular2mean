@@ -11,12 +11,12 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 })
 export class AppComponent implements OnInit {
     constructor(
-            private spinnerService: Ng4LoadingSpinnerService,
-            private messageService: MessageService,
-            private authService: AuthService,
-            private portfolioService: PortfolioService) {}
+        private spinnerService: Ng4LoadingSpinnerService,
+        private messageService: MessageService,
+        private authService: AuthService,
+        private portfolioService: PortfolioService) { }
     ngOnInit() {
         this.spinnerService.hide();
-      }
-title = 'Mean Stack';
+    }
+    title = 'Mean Stack';
 }

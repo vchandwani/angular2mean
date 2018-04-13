@@ -8,7 +8,9 @@ var schema = new Schema({
     Amount: {type: String},
     Units: {type: String},
     Price: {type: String},
-    Unit: {type: String}
+    Unit: {type: String},
+    type : {type: String},
+    uid: {type: Number, ref: 'Fundname' }
 });
 
 module.exports = mongoose.model('Portfolio', schema);

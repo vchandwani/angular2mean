@@ -65,7 +65,8 @@ export class PortfolioService {
                         portfolioDetail.Amount,
                         portfolioDetail.Units,
                         portfolioDetail.Price,
-                        portfolioDetail.Unit)
+                        portfolioDetail.Unit,
+                        portfolioDetail.type)
                     );
                 }
                 return transformedPortfolioDetail;
@@ -167,8 +168,73 @@ export class PortfolioService {
                 return Observable.throw(error.json());
             });
     }
-    latestValue(uid) {
-        let api = API.quandlApi;
+    zeroEntries() {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+
+        return this.http.get(API.zeroLastEntry + token)
+            .map((response: Response) => {
+                const zeroActiveFundLastDetail = response.json().obj;
+                return zeroActiveFundLastDetail;
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    fundZeroEntries(obj, fromDate, toDate) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        let startDate = fromDate;
+        let endDate = toDate;
+        let api = API.dataForDates;
+        return this.http.get(API.dataForDates + token, {
+            params: {
+                name: obj._id,
+                startDate: startDate,
+                endDate: endDate
+            }
+        })
+            .map((response: Response) => {
+                const details = response.json().obj;
+                if (details == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+    insertPortfolio(obj, fromDate, toDate) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        let startDate = fromDate;
+        let endDate = toDate;
+        const body = JSON.stringify(obj);
+        // Insert New Entry Call function for insert
+        return this.http.post(API.portfolio + token, body, { headers: headers })
+            .map((response: Response) => {
+                const result = response.json();
+                return 'Detail added';
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    latestValue(uid, type) {
+        if (type == 'MF') {
+            let api = API.quandlApi;
+        } else if (type == 'Stock') {
+            let api = API.quandlStockApi;
+        }
         api = api.replace('XXX', uid);
         return this.http.get(api)
             .map((response: Response) => {
@@ -180,9 +246,12 @@ export class PortfolioService {
                 return Observable.throw(error.json());
             });
     }
-    updateLatestValue(uid, data) {
+    updateLatestValue(uid, type, data) {
         let latestData: number;
         latestData = data[1];
+        if (type == 'Stock') {
+            latestData = data[5];
+        }
         // Update FundNames for UID with latest Value                
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const token = localStorage.getItem('token')

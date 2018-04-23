@@ -10,7 +10,7 @@ var schema = new Schema({
     Price: {type: String},
     Unit: {type: String},
     type : {type: String},
-    uid: {type: Number, ref: 'Fundname' }
+    uid: {type: String ,ref: 'Fundname' }
 });
 
 module.exports = mongoose.model('Portfolio', schema);

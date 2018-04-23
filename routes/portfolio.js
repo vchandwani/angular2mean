@@ -183,7 +183,7 @@ router.get('/fundLastEntry', function (req, res, next) {
 router.get('/lastEntry', function (req, res, next) {
     Portfolio.aggregate([
         { $sort: { Date: 1, Name: 1, Unit: 1, Price: 1, uid: 1 } },
-        { $group: { _id: "$Name", unit: { $last: "$Unit" }, price: { $last: "$Price" }, lastDate: { $last: "$Date" }, uid: { $last: "$uid" } } }
+        { $group: { _id: "$Name", unit: { $last: "$Unit" }, price: { $last: "$Price" }, lastDate: { $last: "$Date" }, uid: { $last: "$uid" }, type: { $last: "$type" } } }
     ]).exec(function (err, lastentry) {
         if (err) {
             return res.status(500).json({
@@ -219,6 +219,51 @@ router.get('/lastEntry', function (req, res, next) {
 
     });
 });
+router.get('/zeroLastEntry', function (req, res, next) {
+    let finalResult = Array();
+    Portfolio.aggregate([
+        { $match: { Units: 0 } },
+        { $sort: { Date: 1, Name: 1, Unit: 1, Units: 1, Price: 1, uid: 1, type: 1, Transaction: 1, Amount: 1, Units: 1 } },
+        { $group: { _id: "$Name", unit: { $last: "$Unit" }, price: { $last: "$Price" }, lastDate: { $last: "$Date" }, uid: { $last: "$uid" }, type: { $last: "$type" }, Transaction: { $last: "$Transaction" }, Amount: { $last: "$Amount" }, Units: { $last: "$Units" } } }
+    ]).exec(function (err, lastentry) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        let count = lastentry.length;
+        let i = 0;
+        lastentry.forEach((item, index) => {
+            Fundname.findOne({ active: true, uid: item.uid }).exec(function (err, detail) {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                if (detail && detail.latestPrice) {
+                    item.latestPrice = detail.latestPrice;
+                    item.datePrice = detail.datePrice;
+                    item.active = detail.active;
+                    // Only Active entries are pushed
+                    finalResult.push(item);
+                } else {
+                    item.latestPrice = 0;
+
+                }
+                i++;
+                if (count == i) {
+                    res.status(200).json({
+                        message: 'Success',
+                        obj: finalResult
+                    });
+                }
+            });
+        });
+
+    });
+});
 router.post('/updatePrice', function (req, res, next) {
     let uid = req.body.uid;
     let price = req.body.price;
@@ -244,6 +289,51 @@ router.post('/updatePrice', function (req, res, next) {
             });
         }
     );
+});
+router.get('/dataForDates', function (req, res, next) {
+    Portfolio.findOne({ Name: req.query.name, Date: { $gte: new Date(req.query.startDate), $lte: new Date(req.query.endDate) } })
+        .exec(function (err, portfolio) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                message: 'Success',
+                obj: portfolio
+            });
+        });
+});
+
+router.post('/', function (req, res, next) {
+    var decoded = jwt.decode(req.query.token);
+    var portfolio = new Portfolio({
+        Name: req.body._id,
+        Date: req.body.datePrice,
+        Transaction: req.body.Transaction,
+        Amount: parseInt(req.body.Amount),
+        Units: parseInt(req.body.Units),
+        Price: parseInt(req.body.latestPrice),
+        Unit: parseInt(req.body.unit),
+        type: req.body.type,
+        uid: req.body.uid
+    });
+    portfolio.save(function (err, result) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (result) {
+            res.status(201).json({
+                title: 'Entry added successfully',
+                obj: result,
+                success: true
+            });
+        }
+    });
 });
 
 module.exports = router;

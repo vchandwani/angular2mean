@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var schema = new Schema({
     name: {type: String},
     active: {type: Boolean },
-    uid: {type: Number, ref: 'Portfolio' },
+    uid: {type: String , ref: 'Portfolio' },
     latestPrice: {type: Number },
     datePrice: {type: Date },
     type : {type: String},

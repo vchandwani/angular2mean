@@ -55,10 +55,9 @@ export class PortfolioDetailComponent implements OnInit {
 
     ngOnInit() {
         this.spinnerService.show();
-        this.portfolioService.getMutualFundNames()
+        this.portfolioService.getNames()
             .subscribe(
                 data => {
-
                     let mainArray = Array();
                     this.portfolioNames = data;
                     this.portfolioService.getPortfolioDetails()
@@ -67,7 +66,6 @@ export class PortfolioDetailComponent implements OnInit {
                                 let nameItems = [];
                                 let i = 0;
                                 let z = 0;
-
                                 for (let nameWise of portfolio) {
                                     if (nameItems[nameWise.Name]) {
 
@@ -102,7 +100,7 @@ export class PortfolioDetailComponent implements OnInit {
                                         if (!this.tempArrayMain[timeMain]) {
                                             this.tempArrayMain[timeMain] = Array();
                                         }
-                                        
+
                                         if (!this.tempArrayMain[timeMain]['names']) {
                                             this.tempArrayMain[timeMain]['names'] = Array();
                                         }
@@ -132,9 +130,9 @@ export class PortfolioDetailComponent implements OnInit {
                                             tempArray.push(time);
                                             tempArray.push(this.tempArrayMain[item]['amount'][0]);
                                             mainItem['main'].push(tempArray);
-                                            if(y == this.tempMonthMain.length){
+                                            if (y == this.tempMonthMain.length) {
                                                 // Get altest price and add it to main Item array
-                                                this.totalAmount  = parseInt(localStorage.getItem('totalAmount'));
+                                                this.totalAmount = parseInt(localStorage.getItem('totalAmount'));
                                                 let tempArray = Array();
                                                 let time: number = item;
                                                 tempArray.push(new Date().getTime());
@@ -152,11 +150,12 @@ export class PortfolioDetailComponent implements OnInit {
                                                     }]
                                                 });
                                             }
-                                        });                                        
+                                        });
                                     }
                                 }
 
                                 this.options = [];
+                                this.stockOptions = [];
                                 for (let name of this.portfolioNames) {
                                     this.portfolioService.getFundLastEntry(name)
                                         .subscribe(
@@ -166,16 +165,29 @@ export class PortfolioDetailComponent implements OnInit {
                                                 tempArray.push(new Date().getTime());
                                                 tempArray.push(amount);
                                                 nameItems[name].push(tempArray);
-                                                this.options.push({
-                                                    title: { text: name },
-                                                    series: [{
-                                                        name: name,
-                                                        data: nameItems[name],
-                                                        tooltip: {
-                                                            valueDecimals: 2
-                                                        }
-                                                    }]
-                                                });
+                                                if (portfolio[0].type == 'MF') {
+                                                    this.options.push({
+                                                        title: { text: name },
+                                                        series: [{
+                                                            name: name,
+                                                            data: nameItems[name],
+                                                            tooltip: {
+                                                                valueDecimals: 2
+                                                            }
+                                                        }]
+                                                    });
+                                                } else if (portfolio[0].type == 'Stock') {
+                                                    this.stockOptions.push({
+                                                        title: { text: name },
+                                                        series: [{
+                                                            name: name,
+                                                            data: nameItems[name],
+                                                            tooltip: {
+                                                                valueDecimals: 2
+                                                            }
+                                                        }]
+                                                    });
+                                                }
                                             },
                                             error => {
                                                 this.spinnerService.hide();

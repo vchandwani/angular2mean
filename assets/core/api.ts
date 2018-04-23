@@ -9,6 +9,9 @@ export default {
     fundWise : 'portfolio/activeFunds',
     fundLastEntry : 'portfolio/fundLastEntry',
     lastEntry : 'portfolio/lastEntry',
+    zeroLastEntry : 'portfolio/zeroLastEntry',
     quandlApi : 'https://www.quandl.com/api/v3/datasets/AMFI/XXX.json?column_index=1&api_key=QAcRRkev76MWjxja2kYd',
-    updatePrice : 'portfolio/updatePrice'
+    quandlStockApi : 'https://www.quandl.com/api/v3/datasets/NSE/XXX.json?api_key=QAcRRkev76MWjxja2kYd',
+    updatePrice : 'portfolio/updatePrice',
+    dataForDates : 'portfolio/dataForDates'
 }

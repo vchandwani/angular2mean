@@ -5,12 +5,12 @@ var schema = new Schema({
     Name: {type: String},
     Date: {type: Date},
     Transaction: {type: String},
-    Amount: {type: String},
-    Units: {type: String},
-    Price: {type: String},
-    Unit: {type: String},
+    Amount: {type: Number},
+    Units: {type: Number},
+    Price: {type: Number},
+    Unit: {type: Number},
     type : {type: String},
-    uid: {type: String ,ref: 'Fundname' }
+    uid: {type: String }
 });
 
 module.exports = mongoose.model('Portfolio', schema);

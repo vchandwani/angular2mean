@@ -35,8 +35,7 @@ router.get('/', function (req, res, next) {
         });
 });
 router.get('/names', function (req, res, next) {
-    Portfolio.distinct('Name')
-        .populate('Name')
+    Fundname.find({})
         .exec(function (err, portfolioNames) {
             if (err) {
                 return res.status(500).json({
@@ -309,13 +308,13 @@ router.get('/dataForDates', function (req, res, next) {
 router.post('/', function (req, res, next) {
     var decoded = jwt.decode(req.query.token);
     var portfolio = new Portfolio({
-        Name: req.body._id,
-        Date: req.body.datePrice,
+        Name: req.body._id?req.body._id:req.body.Name,
+        Date: req.body.datePrice?req.body.datePrice:req.body.Date,
         Transaction: req.body.Transaction,
         Amount: parseInt(req.body.Amount),
         Units: parseInt(req.body.Units),
-        Price: parseInt(req.body.latestPrice),
-        Unit: parseInt(req.body.unit),
+        Price: parseInt(req.body.latestPrice?req.body.latestPrice:req.body.Price),
+        Unit: parseInt(req.body.unit?req.body.unit:req.body.Unit),
         type: req.body.type,
         uid: req.body.uid
     });

@@ -92,7 +92,7 @@ export class PortfolioDetailComponent implements OnInit {
                                     if (amount) {
                                         let dateString = nameWise.Date;
                                         let res = dateString.split("-");
-
+                                        
                                         let timeMain: number = new Date(res[0] + '-' + res[1] + '-' + '31').getTime();
                                         if (this.tempMonthMain.indexOf(timeMain) < 0) {
                                             this.tempMonthMain.push(timeMain);
@@ -127,10 +127,11 @@ export class PortfolioDetailComponent implements OnInit {
                                             y++;
                                             let tempArray = Array();
                                             let time: number = item;
-                                            tempArray.push(time);
-                                            tempArray.push(this.tempArrayMain[item]['amount'][0]);
-                                            mainItem['main'].push(tempArray);
-                                            if (y == this.tempMonthMain.length) {
+                                            if (y != this.tempMonthMain.length) {
+                                                tempArray.push(time);
+                                                tempArray.push(this.tempArrayMain[item]['amount'][0]);
+                                                mainItem['main'].push(tempArray);
+                                            } else if (y == this.tempMonthMain.length) {
                                                 // Get altest price and add it to main Item array
                                                 this.totalAmount = parseInt(localStorage.getItem('totalAmount'));
                                                 let tempArray = Array();
@@ -156,7 +157,8 @@ export class PortfolioDetailComponent implements OnInit {
 
                                 this.options = [];
                                 this.stockOptions = [];
-                                for (let name of this.portfolioNames) {
+                                for (let detail of this.portfolioNames) {
+                                    let name = detail.name;
                                     this.portfolioService.getFundLastEntry(name)
                                         .subscribe(
                                             (portfolio) => {

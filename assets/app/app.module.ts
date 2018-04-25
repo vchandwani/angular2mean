@@ -6,6 +6,8 @@ import { HttpModule } from "@angular/http";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Ng2OdometerModule } from 'ng2-odometer';
+import { CalendarModule} from 'primeng/calendar';
+import {SelectModule} from 'ng2-select';
 import { AppComponent } from "./app.component";
 import { AuthenticationComponent } from "./auth/authentication.component";
 import { HeaderComponent } from "./header.component";
@@ -20,6 +22,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { ChartsModule } from 'ng2-charts';
 import { PortfolioService } from "./portfolio/portfolio.service";
 import { PortfolioComponent } from "./portfolio/portfolio.component";
+import { PortfolioListComponent } from "./portfolio/portfolio-list.component";
 import { PortfolioInputComponent } from "./portfolio/portfolio-input.component";
 import { MessagesComponent } from "./messages/messages.component";
 import { MessageListComponent } from "./messages/message-list.component";
@@ -45,7 +48,9 @@ import { MessageService } from "./messages/message.service";
         TableModule,
         InputTextModule,
         SharedModule,
-        DialogModule
+        DialogModule,
+        CalendarModule,
+        SelectModule
     ],
     declarations: [
         AppComponent,
@@ -53,6 +58,7 @@ import { MessageService } from "./messages/message.service";
         HeaderComponent,
         ErrorComponent,
         PortfolioComponent,
+        PortfolioListComponent,
         PortfolioInputComponent,
         MessagesComponent,
         MessageListComponent,

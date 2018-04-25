@@ -15,6 +15,13 @@ import { ErrorService } from "../errors/error.service";
     <div class="col-md-4">
         <button class="btn btn-primary" (click)="duplicateZero()">Duplicate Zero Value Stocks/Funds</button>
     </div>
+    <div class="col-md-4">
+        <nav class="col-md-8 col-md-offset-2">
+            <ul class="nav nav-pills">
+                <li routerLinkActive="active"><a [routerLink]="['/portfolio-input']">Portfolio Entry</a></li>
+            </ul>
+        </nav>
+    </div>
     <div class="col-md-12">
         <h3>
         Total : 

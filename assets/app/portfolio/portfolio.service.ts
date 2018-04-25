@@ -1,13 +1,16 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable, BehaviorSubject } from "rxjs";
 import API from '../../core/api';
 import { ErrorService } from "../errors/error.service";
 import { Portfolio } from "./portfolio.model";
+import { port } from "_debugger";
 
 @Injectable()
 export class PortfolioService {
+    private portfolios: Portfolio[] = [];
+    portfolioIsEdit = new EventEmitter<Portfolio>();
 
     constructor(private http: Http, private errorService: ErrorService) { }
     getNames() {
@@ -69,6 +72,7 @@ export class PortfolioService {
                         portfolioDetail.type)
                     );
                 }
+                this.portfolios = transformedPortfolioDetail;
                 return transformedPortfolioDetail;
             })
             .catch((error: Response) => {
@@ -211,6 +215,39 @@ export class PortfolioService {
                 return Observable.throw(error.json());
             });
     }
+
+    insertOneEntryPortfolio(portfolio: Portfolio) {
+        const body = JSON.stringify(portfolio);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+        return this.http.post(API.portfolio + token, body, { headers: headers })
+            .map((response: Response) => {
+                const result = response.json();
+                const portfolio = new Portfolio(
+                    result.obj.Name,
+                    result.obj.Date,
+                    result.obj.Transaction,
+                    result.obj.Amount,
+                    result.obj.Units,
+                    result.obj.Price,
+                    result.obj.Unit,
+                    result.obj.type,
+                    result.obj.uid
+                );
+                this.portfolios.push(portfolio);
+                if (portfolio) {
+                    this.errorService.handleSuccess(response.json());
+                    return portfolio;
+                }
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
     insertPortfolio(obj, fromDate, toDate) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
@@ -267,5 +304,8 @@ export class PortfolioService {
                 this.errorService.handleError(error.json());
                 return Observable.throw(error.json());
             });
+    }
+    editPortfolio(portfolio: Portfolio) {
+        this.portfolioIsEdit.emit(portfolio);
     }
 }

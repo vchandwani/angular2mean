@@ -9,13 +9,13 @@ import { ErrorService } from "../errors/error.service";
         .chart {display: block; width: 100%;}
     `],
     template: `
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4">
         <button class="btn btn-primary" (click)="latestPrices()">Get Latest Prices</button>
     </div>
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4">
         <button class="btn btn-primary" (click)="duplicateZero()">Duplicate Zero Value Stocks/Funds</button>
     </div>
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-4">
         <nav class="col-md-8 col-md-offset-2">
             <ul class="nav nav-pills">
                 <li routerLinkActive="active"><a [routerLink]="['/portfolio-input']">Portfolio Entry</a></li>

@@ -270,10 +270,11 @@ export class PortfolioService {
     }
 
     latestValue(uid, type) {
+        let api:any = API.quandlApi;
         if (type == 'MF') {
-            let api = API.quandlApi;
+            api = API.quandlApi;
         } else if (type == 'Stock') {
-            let api = API.quandlStockApi;
+            api = API.quandlStockApi;
         }
         api = api.replace('XXX', uid);
         return this.http.get(api)

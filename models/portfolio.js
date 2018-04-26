@@ -2,15 +2,15 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var schema = new Schema({
-    Name: {type: String},
-    Date: {type: Date},
-    Transaction: {type: String},
-    Amount: {type: Number},
-    Units: {type: Number},
-    Price: {type: Number},
-    Unit: {type: Number},
-    type : {type: String},
-    uid: {type: String }
+    Name: {type: String, required: true},
+    Date: {type: Date, required: true},
+    Transaction: {type: String, required: true},
+    Amount: {type: Number, required: true},
+    Units: {type: Number, required: true},
+    Price: {type: Number, required: true},
+    Unit: {type: Number, required: true},
+    type : {type: String, required: true},
+    uid: {type: String, required: true }
 });
 
 module.exports = mongoose.model('Portfolio', schema);

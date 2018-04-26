@@ -21,7 +21,11 @@ export class PortfolioInputComponent implements OnInit {
     uidDisplay: string;
     unitsDisplay: any;
     unitDisplay: any;
-    newUnitDisplay: any;
+    newUnitDisplay: Number;
+    activeName: Array<string>;
+    activeType: Array<string>;
+    Date: Date;
+    edit: boolean;
 
     constructor(private http: Http, private errorService: ErrorService, private spinnerService: Ng4LoadingSpinnerService, private portfolioService: PortfolioService) {
     }
@@ -29,31 +33,36 @@ export class PortfolioInputComponent implements OnInit {
     onSubmit(form: NgForm) {
         this.spinnerService.show();
         if (this.portfolio) {
-            // Edit
-            this.portfolio.Name = form.value.Name[0].text;
-            this.portfolio.Date = form.value.Date.toISOString();
+            // Edit            
+            this.portfolio.Date = form.value.Date ? form.value.Date.toISOString() : '';
             this.portfolio.Transaction = form.value.Transaction;
             this.portfolio.Amount = form.value.Amount;
             this.portfolio.Price = form.value.Price;
-            this.portfolio.Unit = this.newUnitDisplay;
-            this.portfolio.Units = this.unitsDisplay;
-            this.portfolio.type = form.value.type[0].text;
-            this.portfolio.uid = this.uidDisplay;
-
-            this.portfolioService.insertOneEntryPortfolio(this.portfolio).subscribe(
+            this.portfolio.Unit = this.newUnitDisplay ? this.newUnitDisplay : 0;
+            this.portfolio.Units = this.unitsDisplay ? this.unitsDisplay : '';
+            this.portfolioService.updatePortfolio(this.portfolio).subscribe(
                 data => {
                     this.spinnerService.hide();
-                    return 'portfolio entry added';
                 },
                 error => {
                     this.spinnerService.hide();
                     //console.error(error)
                 }
-            );            
+            );
             this.portfolio = null;
+            this.uidDisplay = '';
+            this.unitsDisplay = 0;
+            this.unitDisplay = 0;
+            this.newUnitDisplay = 0;
+            this.edit = false;
         } else {
             // Create
-            const portfolio = new Portfolio(form.value.Name[0].text, form.value.Date.toISOString(),form.value.Transaction,form.value.Amount,this.unitsDisplay,form.value.Price,this.newUnitDisplay,form.value.type[0].text,this.uidDisplay );
+            let name = form.value.Name ? form.value.Name[0].text : '';
+            let type = form.value.type ? form.value.type[0].text : '';
+            let date = form.value.Date ? form.value.Date.toISOString() : '';
+            let units = this.unitsDisplay ? this.unitsDisplay : '';
+            let unit = this.newUnitDisplay ? this.newUnitDisplay : '';
+            const portfolio = new Portfolio(name, date, form.value.Transaction, form.value.Amount, units, form.value.Price, unit, type, this.uidDisplay);
             this.portfolioService.insertOneEntryPortfolio(portfolio).subscribe(
                 data => {
                     this.spinnerService.hide();
@@ -63,9 +72,14 @@ export class PortfolioInputComponent implements OnInit {
                     this.spinnerService.hide();
                     //console.error(error)
                 }
-            ); 
+            );
         }
         form.resetForm();
+        this.uidDisplay = '';
+        this.unitsDisplay = 0;
+        this.unitDisplay = 0;
+        this.newUnitDisplay = 0;
+        this.edit = false;
     }
 
     onClear(form: NgForm) {
@@ -73,8 +87,18 @@ export class PortfolioInputComponent implements OnInit {
         form.resetForm();
     }
     calculateUnit(form: NgForm) {
+        this.unitsDisplay = 0;
+        this.newUnitDisplay = 0;
         this.unitsDisplay = form.value.Amount / form.value.Price;
         this.newUnitDisplay = this.unitDisplay + this.unitsDisplay;
+        // Edit Case
+        if (this.edit) {
+            if (this.portfolio.Units >= this.unitsDisplay) {
+                this.newUnitDisplay = this.portfolio.Unit - (this.portfolio.Units - this.unitsDisplay);
+            } else if (this.portfolio.Units < this.unitsDisplay) {
+                this.newUnitDisplay = this.portfolio.Unit + this.unitsDisplay - this.portfolio.Units;
+            }
+        }
     }
     selected(event) {
         this.unitDisplay = 0;
@@ -84,11 +108,11 @@ export class PortfolioInputComponent implements OnInit {
                 this.uidDisplay = detail.uid;
             }
         }
-       // Call to get last Unit entry for the fund
+        // Call to get last Unit entry for the fund
         this.portfolioService.getFundLastEntry(event.id)
             .subscribe(
                 (portfolio) => {
-                    this.unitDisplay = portfolio[0].Unit;                    
+                    this.unitDisplay = portfolio[0].Unit;
                 },
                 error => {
                     this.spinnerService.hide();
@@ -96,7 +120,7 @@ export class PortfolioInputComponent implements OnInit {
                 });
     }
     ngOnInit() {
-
+        this.edit = false;
         this.portfolioService.getNames()
             .subscribe(
                 data => {
@@ -111,7 +135,17 @@ export class PortfolioInputComponent implements OnInit {
                     }
                 });
         this.portfolioService.portfolioIsEdit.subscribe(
-            (portfolio: Portfolio) => this.portfolio = portfolio
+            (portfolio: Portfolio) => {
+                this.edit = true;
+                this.portfolio = portfolio;
+                this.Date = new Date(portfolio.Date.toString());
+                this.unitsDisplay = portfolio.Units;
+                this.unitDisplay = portfolio.Unit;
+                this.newUnitDisplay = portfolio.Unit;
+                this.uidDisplay = portfolio.uid;
+                this.activeName = [portfolio.Name];
+                this.activeType = [portfolio.type];
+            }
         );
     }
 }

@@ -334,5 +334,72 @@ router.post('/', function (req, res, next) {
         }
     });
 });
+router.patch('/:id', function (req, res, next) {
+    var decoded = jwt.decode(req.query.token);
+    Portfolio.findById(req.params.id, function (err, portfolio) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (!portfolio) {
+            return res.status(500).json({
+                title: 'No Record Found!',
+                error: { message: 'Message not found' }
+            });
+        }
+        portfolio.Date = req.body.Date;
+        portfolio.Transaction = req.body.Transaction;
+        portfolio.Amount = req.body.Amount;
+        portfolio.Price = req.body.Price;
+        portfolio.Unit = req.body.Unit;
+        portfolio.Units = req.body.Units;
+        portfolio.save(function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                title: 'Updated record',
+                obj: result,
+                success: true
+            });
+        });
+    });
+});
+
+router.delete('/:id', function (req, res, next) {
+    var decoded = jwt.decode(req.query.token);
+    Portfolio.findById(req.params.id, function (err, portfolio) {
+        if (err) {
+            return res.status(500).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (!portfolio) {
+            return res.status(500).json({
+                title: 'No Record Found!',
+                error: { message: 'Record not found' }
+            });
+        }
+        portfolio.remove(function (err, result) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                title: 'Deleted record',
+                obj: result,
+                success: true
+            });
+        });
+    });
+});
 
 module.exports = router;

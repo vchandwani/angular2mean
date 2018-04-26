@@ -30,7 +30,10 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
                             <ng-container *ngIf='col.field == "Date"'>
                                 {{rowData[col.field] | date }}
                             </ng-container>
-                            <div *ngIf='col.field != "_id" && col.field != "Date"'>
+                            <div *ngIf='col.field == "Amount" || col.field == "Units" || col.field == "Unit" || col.field == "Price"'>
+                                {{rowData[col.field] | number : '1.2-2'}}
+                            </div>
+                            <div *ngIf='col.field != "_id" && col.field != "Date" && col.field != "Amount" && col.field != "Units" && col.field != "Unit" && col.field != "Price"'>
                                 {{rowData[col.field]}}
                             </div>
                             <ng-container *ngIf='col.field == "_id"'>
@@ -73,13 +76,13 @@ export class PortfolioListComponent implements OnInit {
             }
         );
     }
-    onEdit(message) {
-        this.portfolioService.editMessage(message);
+    onEdit(portfolio) {
+        this.portfolioService.editPortfolio(portfolio);
     }
 
-    onDelete(message) {
+    onDelete(portfolio) {
         this.spinnerService.show();
-        this.portfolioService.deleteMessage(message)
+        this.portfolioService.deletePortfolio(portfolio)
             .subscribe(
                 data => {
                     this.spinnerService.hide();

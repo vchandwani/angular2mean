@@ -69,7 +69,9 @@ export class PortfolioService {
                         portfolioDetail.Units,
                         portfolioDetail.Price,
                         portfolioDetail.Unit,
-                        portfolioDetail.type)
+                        portfolioDetail.type,
+                        portfolioDetail.uid,
+                        portfolioDetail._id)
                     );
                 }
                 this.portfolios = transformedPortfolioDetail;
@@ -234,7 +236,8 @@ export class PortfolioService {
                     result.obj.Price,
                     result.obj.Unit,
                     result.obj.type,
-                    result.obj.uid
+                    result.obj.uid,
+                    result.obj._id
                 );
                 this.portfolios.push(portfolio);
                 if (portfolio) {
@@ -307,5 +310,35 @@ export class PortfolioService {
     }
     editPortfolio(portfolio: Portfolio) {
         this.portfolioIsEdit.emit(portfolio);
+    }
+    updatePortfolio(portfolio: Portfolio) {
+        const body = JSON.stringify(portfolio);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+        return this.http.patch(API.portfolio+'/' + portfolio.portfolioId + token, body, {headers: headers})
+            .map((response: Response) => {                
+                this.errorService.handleSuccess(response.json());                
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
+    }
+
+    deletePortfolio(portfolio: Portfolio) {
+        this.portfolios.splice(this.portfolios.indexOf(portfolio), 1);
+        const token = localStorage.getItem('token')
+            ? '?token=' + localStorage.getItem('token')
+            : '';
+        return this.http.delete(API.portfolio+'/' + portfolio.portfolioId + token)
+            .map((response: Response) => {                
+                this.errorService.handleSuccess(response.json());                
+            })
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
     }
 }

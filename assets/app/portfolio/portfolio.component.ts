@@ -25,13 +25,19 @@ import { ErrorService } from "../errors/error.service";
     <div class="col-md-12">
         <h3>
         Total : 
-            <ng2-odometer [number]="totalAmount"></ng2-odometer>        
+            <ng2-odometer 
+                [number]="totalAmount" 
+                [observable]="observable" 
+                [config]="config"></ng2-odometer>        
         </h3>
     </div>
     <div class="col-md-12">
         <h3>
         Stock Total : 
-            <ng2-odometer [number]="totalMutualFundAmount"></ng2-odometer>        
+            <ng2-odometer 
+                [number]="totalMutualFundAmount" 
+                [observable]="observable" 
+                [config]="config"></ng2-odometer>        
         </h3>
     </div>
     <div style="display: block">
@@ -40,7 +46,10 @@ import { ErrorService } from "../errors/error.service";
     <div class="col-md-12">
         <h3>
         Mutual Fund Total : 
-            <ng2-odometer [number]="totalStockAmount"></ng2-odometer>        
+            <ng2-odometer 
+                [number]="totalStockAmount" 
+                [observable]="observable" 
+                [config]="config"></ng2-odometer>        
         </h3>
     </div>
     <div style="display: block">

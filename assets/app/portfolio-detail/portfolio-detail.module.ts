@@ -4,18 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { PortfolioDetailComponent } from "./portfolio-detail.component";
 import { ChartModule } from 'angular2-highcharts';
-import { HighchartsStatic } from 'angular2-highcharts/dist/HighchartsService';
-import { DataTableModule, SharedModule, DialogModule, DataGridModule, InputTextModule, ButtonModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule,DataGridModule ,InputTextModule,ButtonModule} from 'primeng/primeng';
 
-declare var require: any;
-
-export function highchartsFactory() {
-    const hc = require('highcharts');
-    const dd = require('highcharts/highstock');
-    dd(hc);
-
-    return hc;
-}
 
 @NgModule({
     declarations: [
@@ -24,14 +14,9 @@ export function highchartsFactory() {
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        DataTableModule, SharedModule, DialogModule, DataGridModule, InputTextModule, ButtonModule,
-        ChartModule
-    ],providers: [
-        {
-          provide: HighchartsStatic,
-          useFactory: highchartsFactory
-        }
-      ],
+        DataTableModule, SharedModule, DialogModule,DataGridModule ,InputTextModule,ButtonModule,
+        ChartModule.forRoot(require('highcharts/highstock'))
+    ]
 })
 export class PortfolioDetailModule {
 

@@ -3,7 +3,7 @@
         <div class="form-group row">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-                <ng-select required [allowClear]="true" [active]="activeName" [items]="names" [disabled]="edit"  [ngModel]="portfolio?.Name" (selected)="selected($event)" placeholder="Select Name" name="Name" id="Name">
+                <ng-select required [allowClear]="true" [active]="activeName" [items]="names" [disabled]="edit"  [ngModel]="portfolio?.Name" (removed)="removed($event)" (selected)="selected($event)" placeholder="Select Name" name="Name" id="Name">
                 </ng-select>
             </div>
         </div>
@@ -46,7 +46,7 @@
         <div class="form-group row">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Type</label>
                 <div class="col-sm-10">
-                        <ng-select required [allowClear]="true" [active]="activeType" [items]="['Stock', 'MF']" [disabled]="edit" [ngModel]="portfolio?.type" placeholder="Select Type" name="type" id="type">
+                        <ng-select required [allowClear]="true" [active]="activeType" [items]="['Stock', 'MF']" [disabled]="edit" [ngModel]="portfolio?.type" (removed)="removed($event)" (typed)="typed($event)" placeholder="Select Type" name="type" id="type">
                     </ng-select>
                 </div>
         </div>

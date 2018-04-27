@@ -72,10 +72,12 @@ export class PortfolioDetailComponent implements OnInit {
                                     } else {
                                         nameItems[nameWise.Name] = [];
                                     }
-                                    let amount: number = nameWise.Price * nameWise.Unit;
+                                    let price:any =  nameWise.Price;
+                                    let unit:any = nameWise.Unit;
+                                    let amount: number = price * unit;
 
                                     if (amount) {
-                                        let dateString = nameWise.Date;
+                                        let dateString = nameWise.Date.toString();
                                         let res = dateString.split("-");
                                         let time: number = new Date(res[0] + '-' + res[1] + '-' + res[2]).getTime();
                                         let tempArray = Array();

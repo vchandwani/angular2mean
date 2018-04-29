@@ -61,7 +61,7 @@ export class PortfolioInputComponent implements OnInit {
             let type = form.value.type ? form.value.type[0].text : '';
             let date = form.value.Date ? form.value.Date.toISOString() : '';
             let units = this.unitsDisplay ? this.unitsDisplay : '';
-            let unit:any = this.newUnitDisplay ? this.newUnitDisplay : '';
+            let unit = this.newUnitDisplay ? this.newUnitDisplay : '';
             const portfolio = new Portfolio(name, date, form.value.Transaction, form.value.Amount, units, form.value.Price, unit, type, this.uidDisplay);
             this.portfolioService.insertOneEntryPortfolio(portfolio).subscribe(
                 data => {
@@ -94,12 +94,9 @@ export class PortfolioInputComponent implements OnInit {
         // Edit Case
         if (this.edit) {
             if (this.portfolio.Units >= this.unitsDisplay) {
-                let unit:any = this.portfolio.Unit;
-                let units:any = this.portfolio.Units;
-                this.newUnitDisplay = unit - (units - this.unitsDisplay);
+                this.newUnitDisplay = this.portfolio.Unit - (this.portfolio.Units - this.unitsDisplay);
             } else if (this.portfolio.Units < this.unitsDisplay) {
-                let units:any = this.portfolio.Units;
-                this.newUnitDisplay = this.portfolio.Unit + this.unitsDisplay - units;
+                this.newUnitDisplay = this.portfolio.Unit + this.unitsDisplay - this.portfolio.Units;
             }
         }
     }

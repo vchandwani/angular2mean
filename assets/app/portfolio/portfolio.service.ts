@@ -18,7 +18,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.portfolioNames + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.portfolioNames + token)
             .map((response: Response) => {
                 const portfolioDetails = response.json().obj;
                 let portfolioNames = [];
@@ -37,7 +37,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.mutualFundNames + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.mutualFundNames + token)
             .map((response: Response) => {
                 const portfolioDetails = response.json().obj;
                 let portfolioNames = [];
@@ -56,7 +56,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.portfolio + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.portfolio + token)
             .map((response: Response) => {
                 const portfolioDetails = response.json().obj;
                 let transformedPortfolioDetail: Portfolio[] = [];
@@ -87,7 +87,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.portfolioMonthly + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.portfolioMonthly + token)
             .map((response: Response) => {
                 const portfolioMonthlyDetails = response.json().obj;
                 let transformedPortfolioMonthlyDetail = [];
@@ -112,7 +112,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.fundWise + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.fundWise + token)
             .map((response: Response) => {
                 const activeFundsDetails = response.json().obj;
                 let activeFundName = [];
@@ -131,7 +131,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.fundLastEntry + token, {
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.fundLastEntry + token, {
             params: {
                 name: name
             }
@@ -160,7 +160,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.get(API.lastEntry + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.lastEntry + token)
             .map((response: Response) => {
                 const details = response.json().obj;
                 let lastEntries = [];
@@ -180,7 +180,7 @@ export class PortfolioService {
             ? '?token=' + localStorage.getItem('token')
             : '';
 
-        return this.http.get(API.zeroLastEntry + token)
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.zeroLastEntry + token)
             .map((response: Response) => {
                 const zeroActiveFundLastDetail = response.json().obj;
                 return zeroActiveFundLastDetail;
@@ -197,7 +197,7 @@ export class PortfolioService {
         let startDate = fromDate;
         let endDate = toDate;
         let api = API.dataForDates;
-        return this.http.get(API.dataForDates + token, {
+        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.dataForDates + token, {
             params: {
                 name: obj._id,
                 startDate: startDate,
@@ -224,7 +224,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.post(API.portfolio + token, body, { headers: headers })
+        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.portfolio + token, body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 const portfolio = new Portfolio(
@@ -258,7 +258,7 @@ export class PortfolioService {
         let endDate = toDate;
         const body = JSON.stringify(obj);
         // Insert New Entry Call function for insert
-        return this.http.post(API.portfolio + token, body, { headers: headers })
+        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.portfolio + token, body, { headers: headers })
             .map((response: Response) => {
                 const result = response.json();
                 return 'Detail added';
@@ -270,10 +270,11 @@ export class PortfolioService {
     }
 
     latestValue(uid, type) {
+        let api = 'https://powerful-ridge-82271.herokuapp.com/'+API.quandlApi;
         if (type == 'MF') {
-            let api = API.quandlApi;
+            api = 'https://powerful-ridge-82271.herokuapp.com/'+API.quandlApi;
         } else if (type == 'Stock') {
-            let api = API.quandlStockApi;
+            api = 'https://powerful-ridge-82271.herokuapp.com/'+API.quandlStockApi;
         }
         api = api.replace('XXX', uid);
         return this.http.get(api)
@@ -298,7 +299,7 @@ export class PortfolioService {
             ? '?token=' + localStorage.getItem('token')
             : '';
         const body = JSON.stringify({ uid: uid, price: latestData });
-        return this.http.post(API.updatePrice + token, body, { headers: headers })
+        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.updatePrice + token, body, { headers: headers })
             .map((response: Response) => {
                 const updateDetail = response.json();
                 return true;
@@ -317,7 +318,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.patch(API.portfolio+'/' + portfolio.portfolioId + token, body, {headers: headers})
+        return this.http.patch('https://powerful-ridge-82271.herokuapp.com/'+API.portfolio+'/' + portfolio.portfolioId + token, body, {headers: headers})
             .map((response: Response) => {                
                 this.errorService.handleSuccess(response.json());                
             })
@@ -332,7 +333,7 @@ export class PortfolioService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.delete(API.portfolio+'/' + portfolio.portfolioId + token)
+        return this.http.delete('https://powerful-ridge-82271.herokuapp.com/'+API.portfolio+'/' + portfolio.portfolioId + token)
             .map((response: Response) => {                
                 this.errorService.handleSuccess(response.json());                
             })

@@ -73,6 +73,10 @@ export class PortfolioListComponent implements OnInit {
             (portfolios: Portfolio[]) => {
                 this.portfolios = portfolios;
                 this.spinnerService.hide();
+            },
+            error => {
+                this.spinnerService.hide();
+                //console.error(error)
             }
         );
     }

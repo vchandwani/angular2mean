@@ -135,7 +135,7 @@ export class PortfolioComponent implements OnInit {
                 },
                 error => {
                     this.spinnerService.hide();
-                    //console.error(error)
+                    // console.error(error)
                 }
             );
     }

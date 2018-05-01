@@ -64,7 +64,7 @@ import { MessageService } from "./messages/message.service";
         SharedModule,
         DialogModule,
         CalendarModule,
-        SelectModule
+        SelectModule,
     ],
     providers: [AuthService, ErrorService,PortfolioService,MessageService
     ],

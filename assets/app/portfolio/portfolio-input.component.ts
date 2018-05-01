@@ -136,6 +136,10 @@ export class PortfolioInputComponent implements OnInit {
                             this.names = this.namesMain;
                         }
                     }
+                },
+                error => {
+                    this.spinnerService.hide();
+                    // console.error(error)
                 });
         this.portfolioService.portfolioIsEdit.subscribe(
             (portfolio: Portfolio) => {
@@ -148,6 +152,10 @@ export class PortfolioInputComponent implements OnInit {
                 this.uidDisplay = portfolio.uid;
                 this.activeName = [portfolio.Name];
                 this.activeType = [portfolio.type];
+            },
+            error => {
+                this.spinnerService.hide();
+                // console.error(error)
             }
         );
     }

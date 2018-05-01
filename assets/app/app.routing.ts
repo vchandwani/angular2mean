@@ -1,5 +1,4 @@
 import { Routes, RouterModule } from "@angular/router";
-
 import { MessagesComponent } from "./messages/messages.component";
 import { PortfolioDetailComponent } from "./portfolio-detail/portfolio-detail.component";
 import { AuthenticationComponent } from "./auth/authentication.component";

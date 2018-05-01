@@ -263,12 +263,12 @@ export class PortfolioDetailComponent implements OnInit {
                                                     this.lineChartDataTemp = [{ data: this.chartData[name], label: name }];
                                                     this.stockOptionsChart.push({
                                                         label: this.chartLabels[name],
-                                                        series : this.lineChartDataTemp
+                                                        series: this.lineChartDataTemp
                                                     });
 
                                                 }
                                                 // All entries pushed
-                                                if(this.portfolioNames.length == this.mutualOptionsChart.length+this.stockOptionsChart.length){
+                                                if (this.portfolioNames.length == this.mutualOptionsChart.length + this.stockOptionsChart.length) {
                                                     this.stockDisplay = true;
                                                     this.mutualDisplay = true;
                                                 }
@@ -278,6 +278,10 @@ export class PortfolioDetailComponent implements OnInit {
                                                 //console.error(error)
                                             });
                                 };
+                            },
+                            error => {
+                                this.spinnerService.hide();
+                                //console.error(error)
                             }
                         );
                     this.spinnerService.hide();

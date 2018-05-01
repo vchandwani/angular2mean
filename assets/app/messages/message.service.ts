@@ -20,7 +20,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.message + token, body, {headers: headers})
+        return this.http.post(API.api_url+API.message + token, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 const message = new Message(
@@ -41,7 +41,7 @@ export class MessageService {
     }
 
     getMessages() {
-        return this.http.get('https://powerful-ridge-82271.herokuapp.com/'+API.message)
+        return this.http.get(API.api_url+API.message)
             .map((response: Response) => {
                 const messages = response.json().obj;
                 let transformedMessages: Message[] = [];
@@ -72,7 +72,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.patch('https://powerful-ridge-82271.herokuapp.com/'+API.message+'/' + message.messageId + token, body, {headers: headers})
+        return this.http.patch(API.api_url+API.message+'/' + message.messageId + token, body, {headers: headers})
             .map((response: Response) => {                
                 this.errorService.handleSuccess(response.json());                
             })
@@ -87,7 +87,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.delete('https://powerful-ridge-82271.herokuapp.com/'+API.message+'/' + message.messageId + token)
+        return this.http.delete(API.api_url+API.message+'/' + message.messageId + token)
             .map((response: Response) => {                
                 this.errorService.handleSuccess(response.json());                
             })

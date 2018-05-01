@@ -13,7 +13,7 @@ export class AuthService {
     signup(user: User) {
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.user, body, {headers: headers})
+        return this.http.post(API.api_url+API.user, body, {headers: headers})
             .map((response: Response) => {
                 response.json()
                 this.errorService.handleSuccess(response.json());
@@ -28,7 +28,7 @@ export class AuthService {
     signin(user: User) {
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('https://powerful-ridge-82271.herokuapp.com/'+API.userSignIn, body, {headers: headers})
+        return this.http.post(API.api_url+API.userSignIn, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

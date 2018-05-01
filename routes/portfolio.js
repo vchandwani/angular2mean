@@ -6,17 +6,6 @@ var jwt = require('jsonwebtoken');
 var Portfolio = require('../models/portfolio');
 var Fundname = require('../models/fundname');
 
-router.use('/', function (req, res, next) {
-    jwt.verify(req.query.token, 'secret', function (err, decoded) {
-        if (err) {
-            return res.status(401).json({
-                title: 'Not Authenticated',
-                error: err
-            });
-        }
-        next();
-    })
-});
 
 router.get('/', function (req, res, next) {
     Portfolio.find()
@@ -34,6 +23,7 @@ router.get('/', function (req, res, next) {
             });
         });
 });
+
 router.get('/names', function (req, res, next) {
     Fundname.find({})
         .exec(function (err, portfolioNames) {
@@ -263,6 +253,35 @@ router.get('/zeroLastEntry', function (req, res, next) {
 
     });
 });
+
+router.get('/dataForDates', function (req, res, next) {
+    Portfolio.findOne({ Name: req.query.name, Date: { $gte: new Date(req.query.startDate), $lte: new Date(req.query.endDate) } })
+        .exec(function (err, portfolio) {
+            if (err) {
+                return res.status(500).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                message: 'Success',
+                obj: portfolio
+            });
+        });
+});
+
+router.use('/', function (req, res, next) {
+    jwt.verify(req.query.token, 'secret', function (err, decoded) {
+        if (err) {
+            return res.status(401).json({
+                title: 'Not Authenticated',
+                error: err
+            });
+        }
+        next();
+    })
+});
+
 router.post('/updatePrice', function (req, res, next) {
     let uid = req.body.uid;
     let price = req.body.price;
@@ -288,21 +307,6 @@ router.post('/updatePrice', function (req, res, next) {
             });
         }
     );
-});
-router.get('/dataForDates', function (req, res, next) {
-    Portfolio.findOne({ Name: req.query.name, Date: { $gte: new Date(req.query.startDate), $lte: new Date(req.query.endDate) } })
-        .exec(function (err, portfolio) {
-            if (err) {
-                return res.status(500).json({
-                    title: 'An error occurred',
-                    error: err
-                });
-            }
-            res.status(200).json({
-                message: 'Success',
-                obj: portfolio
-            });
-        });
 });
 
 router.post('/', function (req, res, next) {

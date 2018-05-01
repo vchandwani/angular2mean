@@ -30,7 +30,21 @@ import { MessageComponent } from "./messages/message.component";
 import { MessageInputComponent } from "./messages/message-input.component";
 import { MessageService } from "./messages/message.service";
 
-@NgModule({    
+
+@NgModule({   
+    declarations: [        
+        AppComponent,
+        AuthenticationComponent,
+        HeaderComponent,
+        ErrorComponent,
+        PortfolioComponent,
+        PortfolioListComponent,
+        PortfolioInputComponent,
+        MessagesComponent,
+        MessageListComponent,
+        MessageComponent,
+        MessageInputComponent
+    ], 
     imports: [
         CommonModule,
         FormsModule,
@@ -52,26 +66,9 @@ import { MessageService } from "./messages/message.service";
         CalendarModule,
         SelectModule
     ],
-    declarations: [
-        AppComponent,
-        AuthenticationComponent,
-        HeaderComponent,
-        ErrorComponent,
-        PortfolioComponent,
-        PortfolioListComponent,
-        PortfolioInputComponent,
-        MessagesComponent,
-        MessageListComponent,
-        MessageComponent,
-        MessageInputComponent
-    ],
     providers: [AuthService, ErrorService,PortfolioService,MessageService
     ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(public appRef: ApplicationRef) {
-    }
-
 }
-platformBrowserDynamic().bootstrapModule(AppModule);

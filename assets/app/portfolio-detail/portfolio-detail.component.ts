@@ -13,13 +13,13 @@ import { port } from "_debugger";
       }
     `],
     template: `
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-12">
             <div style="display: block;" *ngIf="chartDisplay">
                 <canvas baseChart width="100%" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
             </div>
         </div>
-    </div>
+    </div>-->
     <div *ngFor="let optionsVal of mainOptions">
         <chart type="StockChart" [options]="optionsVal"></chart>
     </div>
@@ -33,26 +33,26 @@ import { port } from "_debugger";
             <div *ngFor="let optionsVal of options">
                 <chart type="StockChart" [options]="optionsVal"></chart>
             </div>
-            <div class="row" *ngIf="mutualDisplay">
+            <!--<div class="row" *ngIf="mutualDisplay">
                 <div class="col-md-12" *ngFor="let optionsVal of mutualOptionsChart">
                     <div style="display: block;">
                         <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
                     </div>
                 </div>                
-            </div>
+            </div>-->
         </div>
         <div id="stocks" class="tab-pane fade">
             <h3>Stocks</h3>
             <div *ngFor="let optionsVal of stockOptions">
                 <chart type="StockChart" [options]="optionsVal"></chart>
             </div>
-            <div class="row" *ngIf="stockDisplay">
+            <!--<div class="row" *ngIf="stockDisplay">
                 <div class="col-md-12" *ngFor="let optionsVal of stockOptionsChart">
                     <div style="display: block;">
                         <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
                     </div>
                 </div>                
-            </div>
+            </div>-->
         </div>
     </div>
 `

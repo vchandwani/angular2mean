@@ -20,9 +20,9 @@ import { port } from "_debugger";
             </div>
         </div>
     </div>
-    <!--<div *ngFor="let optionsVal of mainOptions">
+    <div *ngFor="let optionsVal of mainOptions">
         <chart type="StockChart" [options]="optionsVal"></chart>
-    </div>-->
+    </div>
     <ul class="nav nav-pills">
         <li class="active"><a data-toggle="pill" href="portfolio-detail#mutual_funds">Mutual Funds</a></li>
         <li><a data-toggle="pill" href="portfolio-detail#stocks">Stocks</a></li>
@@ -30,9 +30,9 @@ import { port } from "_debugger";
     <div class="tab-content">
         <div id="mutual_funds" class="tab-pane fade in active">
             <h3>Mutual Funds</h3>
-            <!--<div *ngFor="let optionsVal of options">
+            <div *ngFor="let optionsVal of options">
                 <chart type="StockChart" [options]="optionsVal"></chart>
-            </div>-->
+            </div>
             <div class="row" *ngIf="mutualDisplay">
                 <div class="col-md-12" *ngFor="let optionsVal of mutualOptionsChart">
                     <div style="display: block;">
@@ -43,9 +43,9 @@ import { port } from "_debugger";
         </div>
         <div id="stocks" class="tab-pane fade">
             <h3>Stocks</h3>
-            <!--<div *ngFor="let optionsVal of stockOptions">
+            <div *ngFor="let optionsVal of stockOptions">
                 <chart type="StockChart" [options]="optionsVal"></chart>
-            </div>-->
+            </div>
             <div class="row" *ngIf="stockDisplay">
                 <div class="col-md-12" *ngFor="let optionsVal of stockOptionsChart">
                     <div style="display: block;">

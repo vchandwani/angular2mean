@@ -153,4 +153,8 @@ rect.highcharts-button-box {
 .highcharts-button .highcharts-button-pressed {
   fill: #444444;
 }
+
+.text-color {
+  color: #e2e2e2;
+}
 /*# sourceMappingURL=style.css.map */

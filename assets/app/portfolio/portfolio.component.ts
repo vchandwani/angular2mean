@@ -9,18 +9,16 @@ import { ErrorService } from "../errors/error.service";
         .chart {display: block; width: 100%;}
     `],
     template: `
-    <div class="col-md-4 col-sm-4">
-        <button class="btn btn-primary" (click)="latestPrices()">Get Latest Prices</button>
-    </div>
-    <div class="col-md-4 col-sm-4">
-        <button class="btn btn-primary" (click)="duplicateZero()">Duplicate Zero Value Stocks/Funds</button>
-    </div>
-    <div class="col-md-4 col-sm-4">
-        <nav class="col-md-8 col-md-offset-2">
-            <ul class="nav nav-pills">
-                <li routerLinkActive="active"><a [routerLink]="['/portfolio-input']">Portfolio Entry</a></li>
-            </ul>
-        </nav>
+    <div class="row">
+        <div class="col-md-3 col-sm-3">
+            <a class="btn btn-primary" (click)="latestPrices()">Get Latest Prices</a>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <a class="btn btn-primary" (click)="duplicateZero()">Duplicate Zero Value Stocks/Funds</a>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <a class="btn btn-primary" [routerLink]="['/portfolio-input']">Portfolio Entry</a>
+        </div>
     </div>
     <div class="col-md-12">
         <h3>

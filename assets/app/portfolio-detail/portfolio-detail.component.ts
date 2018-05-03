@@ -20,7 +20,7 @@ import { port } from "_debugger";
                 </div>
             </div>
         </div>-->
-        <div *ngFor="let optionsVal of mainOptions">
+        <div class="spacing" *ngFor="let optionsVal of mainOptions">
             <chart type="StockChart" [options]="optionsVal"></chart>
         </div>
         <ul class="nav nav-pills">
@@ -30,7 +30,7 @@ import { port } from "_debugger";
         <div class="tab-content">
             <div id="mutual_funds" class="tab-pane fade in active">
                 <h3>Mutual Funds</h3>
-                <div *ngFor="let optionsVal of options">
+                <div class="spacing" *ngFor="let optionsVal of options">
                     <chart type="StockChart" [options]="optionsVal"></chart>
                 </div>
                 <!--<div class="row" *ngIf="mutualDisplay">
@@ -190,7 +190,7 @@ export class PortfolioDetailComponent implements OnInit {
                                                 this.dataMain.push(this.tempArrayMain[item]['amount'][0]);
                                                 this.lineChartLabels.push(new Date(time).getDay() + '-' + this.month[new Date(time).getMonth()] + '-' + new Date(time).getFullYear());
                                             } else if (y == this.tempMonthMain.length) {
-                                                // Get altest price and add it to main Item array
+                                                // Get latest price and add it to main Item array
                                                 this.totalAmount = parseInt(localStorage.getItem('totalAmount'));
                                                 let tempArray = Array();
                                                 let time: number = item;

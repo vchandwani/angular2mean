@@ -20,7 +20,6 @@ import { TableModule } from 'primeng/table';
 import { PortfolioDetailModule } from "./portfolio-detail/portfolio-detail.module";
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 import { ChartsModule } from 'ng2-charts';
-import {ChartModule} from 'primeng/chart';
 import { PortfolioService } from "./portfolio/portfolio.service";
 import { PortfolioComponent } from "./portfolio/portfolio.component";
 import { PortfolioListComponent } from "./portfolio/portfolio-list.component";
@@ -57,7 +56,6 @@ import { MessageService } from "./messages/message.service";
         Ng4LoadingSpinnerModule.forRoot(),
         Ng2OdometerModule.forRoot(),
         ChartsModule,
-        ChartModule,
         DataTableModule,
         DataGridModule,
         ButtonModule,

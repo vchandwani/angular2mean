@@ -38,7 +38,6 @@ import { ErrorService } from "../errors/error.service";
         </h3>
     </div>
     <div style="display: block">
-        <p-chart *ngIf="chartDisplay" type="doughnut" [data]="mutualChartdata" [options]="doughnutChartOptions"></p-chart>
         <canvas baseChart *ngIf="chartDisplay" [options]="doughnutChartOptions" [data]="chartDataMain" [labels]="chartLabelsMain" [chartType]="doughnutChartType"></canvas>
     </div>
     <div class="col-md-12">
@@ -50,47 +49,22 @@ import { ErrorService } from "../errors/error.service";
         </h3>
     </div>
     <div style="display: block">
-        <p-chart *ngIf="stockChartDisplay" type="doughnut" [data]="stockChartdata" [options]="doughnutChartOptions"></p-chart>
         <canvas baseChart *ngIf="stockChartDisplay" [options]="doughnutChartOptions" [data]="stockChartDataMain" [labels]="stockChartLabelsMain" [chartType]="doughnutChartType"></canvas>
     </div>
     `
 })
 export class PortfolioComponent implements OnInit {
-    mutualChartdata: any;
-    stockChartdata: any;
     public doughnutChartOptions: any = {
-        elements: {
-            center: {
-                fontColor: 'red',
-                fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-                fontSize: 24,
-                fontStyle: 'normal'
+        legend: {
+            position: 'top',
+            display: true,
+            labels: {
+                fontColor: '#e2e2e2',
+                fontSize: 16
             }
         }
     };
-    constructor(private spinnerService: Ng4LoadingSpinnerService, private portfolioService: PortfolioService, private errorService: ErrorService) {
-        this.mutualChartdata = {
-            labels: [],
-            datasets: [
-                {
-                    data: [],
-                    options: this.doughnutChartOptions,
-                    backgroundColor: [],
-                    hoverBackgroundColor: []
-                }]    
-            };
-        this.stockChartdata = {
-            labels: [],
-            datasets: [
-                {
-                    data: [],
-                    options: this.doughnutChartOptions,
-                    backgroundColor: [],
-                    hoverBackgroundColor: []
-                }]    
-            };
-
-     }
+    constructor(private spinnerService: Ng4LoadingSpinnerService, private portfolioService: PortfolioService, private errorService: ErrorService) {}
     rows = [];
     tempUID = [];
     tempNames = [];
@@ -106,7 +80,7 @@ export class PortfolioComponent implements OnInit {
     public stockChartLabelsMain: string[] = [];
     public chartDataMain: number[] = [];
     public stockChartDataMain: number[] = [];
-    public doughnutChartType: string = 'doughnut';
+    public doughnutChartType: string = 'pie';
     public polarAreaChartType: string = 'polarArea';
     public polarAreaLegend: boolean = true;
     public pieChartType: string = 'pie';
@@ -140,25 +114,12 @@ export class PortfolioComponent implements OnInit {
                                     let k = 0;
                                     data.forEach((item) => {
                                         if (item.type = 'MF' && this.activeFunds.indexOf(item._id) > -1) {
-                                            let color = '#'+ (Math.floor(Math.random()*90000) + 10000);
-                                            this.mutualChartdata.labels.push(item._id);
-                                            this.mutualChartdata.datasets[0].data.push(item.latestPrice * item.unit);
-                                            this.mutualChartdata.datasets[0].backgroundColor.push(color);
-                                            this.mutualChartdata.datasets[0].hoverBackgroundColor.push(color);
-                                            console.log(this.mutualChartdata);
-                                            
                                             this.chartLabelsMain.push(item._id);
                                             this.chartDataMain.push(item.latestPrice * item.unit);
                                             this.totalMutualFundAmount += item.latestPrice * item.unit;
                                             localStorage.setItem('totalMutualFundAmount', this.totalMutualFundAmount.toString());
                                             z++;
                                         } else if (item.type = 'Stock' && this.activeStocks.indexOf(item._id) > -1) {
-                                            let color = '#'+ (Math.floor(Math.random()*90000) + 10000);
-                                            this.stockChartdata.labels.push(item._id);
-                                            this.stockChartdata.datasets[0].data.push(item.latestPrice * item.unit);
-                                            this.stockChartdata.datasets[0].backgroundColor.push(color);
-                                            this.stockChartdata.datasets[0].hoverBackgroundColor.push(color);
-                                            
                                             this.stockChartLabelsMain.push(item._id);
                                             this.stockChartDataMain.push(item.latestPrice * item.unit);
                                             this.totalStockAmount += item.latestPrice * item.unit;

@@ -1,10 +1,33 @@
+$white :#fff;
+$light-red :#ff6666;
 $red :red;
+$light-green: #7CFC00;
 $green: #1f872b;
 $a_color: #00B7FF;
 $loaderColor: #428bca;
+$background: #2f2f2f;
+$chart-background: #444444;
+$text-color: #e2e2e2;
+$clicked : #a3a3a3;
+$click : #444444;
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background: $background;
+}
+
+.modal-content {
+    background: $background;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    color: $text-color;
 }
 
 a {
@@ -65,6 +88,77 @@ input.ng-invalid.ng-touched {
     height: inherit;
     vertical-align: middle;
 }
+
 .ui-table table {
-    table-layout:auto !important;
+    table-layout: auto !important;
+}
+
+.highcharts-background {
+    fill: $chart-background;
+    stroke: $chart-background;
+    stroke-width: 2px;
+}
+
+.highcharts-subtitle {
+    font-family: 'Courier New', monospace;
+    font-style: italic;
+    fill: $text-color;
+}
+
+.highcharts-point {
+    stroke: $white;
+}
+
+.highcharts-graph {
+    stroke: $light-green;
+}
+
+.highcharts-point {
+    fill: $green;
+}
+
+.highcharts-crosshair-label {
+    stroke-width: 1px;
+    stroke: $background;
+}
+
+.highcharts-crosshair-label text {
+    fill: $text-color;
+}
+
+.highcharts-range-selector-buttons {
+    fill: $text-color;
+}
+
+.highcharts-root text {
+    font-family: 'Arial', monospace;
+    fill: $text-color !important;
+}
+rect.highcharts-button-box {
+    fill: $click;
+}
+
+.highcharts-title {
+    fill: $text-color;
+    color: $text-color;
+    font-weight: bold;
+    letter-spacing: 0.3em;
+    font-size: 3em;
+}
+
+.highcharts-tooltip-box {
+    stroke-width: $white;
+    fill: $background;
+    fill-opacity: 0.85;
+}
+
+.highcharts-navigator-series {
+    fill: $green;
+    stroke: $green;
+}
+.highcharts-button .highcharts-button-disabled{
+    fill: $clicked;
+}
+.highcharts-button .highcharts-button-pressed{
+    fill: $click;
 }

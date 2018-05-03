@@ -8,53 +8,53 @@ import { port } from "_debugger";
 @Component({
     selector: 'app-portfolio-detail',
     styles: [`
-      chart {
-        display: block; 
-      }
-    `],
+ chart {
+ display: block; 
+ }
+ `],
     template: `
-    <!--<div class="row">
-        <div class="col-md-12">
-            <div style="display: block;" *ngIf="chartDisplay">
+        <!--<div class="row">
+            <div class="col-md-12">
+                <div style="display: block;" *ngIf="chartDisplay">
                 <canvas baseChart width="100%" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
+                </div>
+            </div>
+        </div>-->
+        <div *ngFor="let optionsVal of mainOptions">
+            <chart type="StockChart" [options]="optionsVal"></chart>
+        </div>
+        <ul class="nav nav-pills">
+            <li class="active"><a data-toggle="pill" href="portfolio-detail#mutual_funds">Mutual Funds</a></li>
+            <li><a data-toggle="pill" href="portfolio-detail#stocks">Stocks</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="mutual_funds" class="tab-pane fade in active">
+                <h3>Mutual Funds</h3>
+                <div *ngFor="let optionsVal of options">
+                    <chart type="StockChart" [options]="optionsVal"></chart>
+                </div>
+                <!--<div class="row" *ngIf="mutualDisplay">
+                    <div class="col-md-12" *ngFor="let optionsVal of mutualOptionsChart">
+                        <div style="display: block;">
+                            <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
+                        </div>
+                    </div> 
+                </div>-->
+            </div>
+            <div id="stocks" class="tab-pane fade">
+                <h3>Stocks</h3>
+                <div *ngFor="let optionsVal of stockOptions">
+                    <chart type="StockChart" [options]="optionsVal"></chart>
+                </div>
+                <!--<div class="row" *ngIf="stockDisplay">
+                    <div class="col-md-12" *ngFor="let optionsVal of stockOptionsChart">
+                        <div style="display: block;">
+                            <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
+                        </div>
+                    </div> 
+                </div>-->
             </div>
         </div>
-    </div>-->
-    <div *ngFor="let optionsVal of mainOptions">
-        <chart type="StockChart" [options]="optionsVal"></chart>
-    </div>
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="portfolio-detail#mutual_funds">Mutual Funds</a></li>
-        <li><a data-toggle="pill" href="portfolio-detail#stocks">Stocks</a></li>
-    </ul>
-    <div class="tab-content">
-        <div id="mutual_funds" class="tab-pane fade in active">
-            <h3>Mutual Funds</h3>
-            <div *ngFor="let optionsVal of options">
-                <chart type="StockChart" [options]="optionsVal"></chart>
-            </div>
-            <!--<div class="row" *ngIf="mutualDisplay">
-                <div class="col-md-12" *ngFor="let optionsVal of mutualOptionsChart">
-                    <div style="display: block;">
-                        <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
-                    </div>
-                </div>                
-            </div>-->
-        </div>
-        <div id="stocks" class="tab-pane fade">
-            <h3>Stocks</h3>
-            <div *ngFor="let optionsVal of stockOptions">
-                <chart type="StockChart" [options]="optionsVal"></chart>
-            </div>
-            <!--<div class="row" *ngIf="stockDisplay">
-                <div class="col-md-12" *ngFor="let optionsVal of stockOptionsChart">
-                    <div style="display: block;">
-                        <canvas baseChart width="100%" [datasets]="optionsVal.series" [labels]="optionsVal.label" [options]="lineChartOptions" [chartType]="lineChartType" (chartHover)="chartHovered($event)"></canvas>
-                    </div>
-                </div>                
-            </div>-->
-        </div>
-    </div>
 `
 })
 export class PortfolioDetailComponent implements OnInit {
@@ -160,7 +160,7 @@ export class PortfolioDetailComponent implements OnInit {
                                         }
 
                                         if (this.tempArrayMain[timeMain]['names'].indexOf(nameWise.Name) < 0) {
-                                            // Check whether name alread pushes to avoid duplicate for the Month                                        
+                                            // Check whether name alread pushes to avoid duplicate for the Month 
                                             this.tempArrayMain[timeMain]['names'].push(nameWise.Name);
                                             if (!this.tempArrayMain[timeMain]['amount']) {
                                                 this.tempArrayMain[timeMain]['amount'] = Array();
@@ -201,8 +201,32 @@ export class PortfolioDetailComponent implements OnInit {
                                                 mainItem['main'].push(tempArray);
                                                 this.mainOptions.push({
                                                     title: { text: 'Portfolio Total' },
+                                                    xAxis: {
+                                                        crosshair: true
+                                                    },
+                                                    yAxis: {
+                                                        opposite: true,
+                                                        crosshair: {
+                                                            label: {
+                                                                enabled: true,
+                                                                format: '{value:.2f}'
+                                                            }
+                                                        },
+                                                        labels: {
+                                                            align: 'left',
+                                                            format: '{value:.2f}',
+                                                            y: 6,
+                                                            x: 2
+                                                        }
+                                                    },
+                                                    plotOptions: {
+                                                        series: {
+                                                            color: '#1f872b'
+                                                        }
+                                                    },
                                                     series: [{
                                                         name: 'Portfolio Total',
+                                                        type: 'area',
                                                         data: mainItem['main'],
                                                         tooltip: {
                                                             valueDecimals: 2
@@ -236,6 +260,29 @@ export class PortfolioDetailComponent implements OnInit {
                                                 if (portfolio[0].type == 'MF') {
                                                     this.options.push({
                                                         title: { text: name },
+                                                        xAxis: {
+                                                            crosshair: true
+                                                        },
+                                                        yAxis: {
+                                                            opposite: true,
+                                                            crosshair: {
+                                                                label: {
+                                                                    enabled: true,
+                                                                    format: '{value:.2f}'
+                                                                }
+                                                            },
+                                                            labels: {
+                                                                align: 'left',
+                                                                format: '{value:.2f}',
+                                                                y: 6,
+                                                                x: 2
+                                                            }
+                                                        },
+                                                        plotOptions: {
+                                                            series: {
+                                                                color: '#1f872b'
+                                                            }
+                                                        },
                                                         series: [{
                                                             name: name,
                                                             data: nameItems[name],
@@ -252,6 +299,29 @@ export class PortfolioDetailComponent implements OnInit {
                                                 } else if (portfolio[0].type == 'Stock') {
                                                     this.stockOptions.push({
                                                         title: { text: name },
+                                                        xAxis: {
+                                                            crosshair: true
+                                                        },
+                                                        yAxis: {
+                                                            opposite: true,
+                                                            crosshair: {
+                                                                label: {
+                                                                    enabled: true,
+                                                                    format: '{value:.2f}'
+                                                                }
+                                                            },
+                                                            labels: {
+                                                                align: 'left',
+                                                                format: '{value:.2f}',
+                                                                y: 6,
+                                                                x: 2
+                                                            }
+                                                        },
+                                                        plotOptions: {
+                                                            series: {
+                                                                color: '#1f872b'
+                                                            }
+                                                        },
                                                         series: [{
                                                             name: name,
                                                             data: nameItems[name],

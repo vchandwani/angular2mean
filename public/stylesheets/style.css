@@ -1,6 +1,21 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #2f2f2f;
+}
+
+.modal-content {
+  background: #2f2f2f;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  color: #e2e2e2;
 }
 
 a {
@@ -64,5 +79,78 @@ input.ng-invalid.ng-touched {
 
 .ui-table table {
   table-layout: auto !important;
+}
+
+.highcharts-background {
+  fill: #444444;
+  stroke: #444444;
+  stroke-width: 2px;
+}
+
+.highcharts-subtitle {
+  font-family: 'Courier New', monospace;
+  font-style: italic;
+  fill: #e2e2e2;
+}
+
+.highcharts-point {
+  stroke: #fff;
+}
+
+.highcharts-graph {
+  stroke: #7CFC00;
+}
+
+.highcharts-point {
+  fill: #1f872b;
+}
+
+.highcharts-crosshair-label {
+  stroke-width: 1px;
+  stroke: #2f2f2f;
+}
+
+.highcharts-crosshair-label text {
+  fill: #e2e2e2;
+}
+
+.highcharts-range-selector-buttons {
+  fill: #e2e2e2;
+}
+
+.highcharts-root text {
+  font-family: 'Arial', monospace;
+  fill: #e2e2e2 !important;
+}
+
+rect.highcharts-button-box {
+  fill: #444444;
+}
+
+.highcharts-title {
+  fill: #e2e2e2;
+  color: #e2e2e2;
+  font-weight: bold;
+  letter-spacing: 0.3em;
+  font-size: 3em;
+}
+
+.highcharts-tooltip-box {
+  stroke-width: #fff;
+  fill: #2f2f2f;
+  fill-opacity: 0.85;
+}
+
+.highcharts-navigator-series {
+  fill: #1f872b;
+  stroke: #1f872b;
+}
+
+.highcharts-button .highcharts-button-disabled {
+  fill: #a3a3a3;
+}
+
+.highcharts-button .highcharts-button-pressed {
+  fill: #444444;
 }
 /*# sourceMappingURL=style.css.map */
